@@ -53,6 +53,7 @@ class Order(models.Model):
             return (datetime.now() - self.time_in).total_seconds() // 60
 
 
+
 class ProductOrder(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
