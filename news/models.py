@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 director = 'DI'
 admin = 'AD'
@@ -39,6 +40,17 @@ class Order(models.Model):
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
 
     products = models.ManyToManyField(Product, through='ProductOrder')
+
+    def finish_order(self):
+        self.time_out = datetime.now()
+        self.complete = True
+        self.save()
+
+    def get_duration(self):
+        if self.complete:
+            return (self.time_out - self.time_in).total_seconds() // 60
+        else:
+            return (datetime.now() - self.time_in).total_seconds() // 60
 
 
 class ProductOrder(models.Model):
